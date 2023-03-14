@@ -17,6 +17,7 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingStoreHelper;
 import java.util.HashMap;
 
 public class MyFirebaseMessagingReceiver extends ReactNativeFirebaseMessagingReceiver {
+
   private static final String TAG = "MyFirebaseMsgService";
   static HashMap<String, RemoteMessage> notifications = new HashMap<>();
 
@@ -28,7 +29,7 @@ public class MyFirebaseMessagingReceiver extends ReactNativeFirebaseMessagingRec
     }
     RemoteMessage remoteMessage = new RemoteMessage(intent.getExtras());
     ReactNativeFirebaseEventEmitter emitter = ReactNativeFirebaseEventEmitter.getSharedInstance();
-    Log.e(TAG,"asdasdsad");
+    Log.e(TAG, "asdasdsad");
     // Add a RemoteMessage if the message contains a notification payload
     if (remoteMessage.getNotification() != null) {
       notifications.put(remoteMessage.getMessageId(), remoteMessage);
@@ -51,9 +52,14 @@ public class MyFirebaseMessagingReceiver extends ReactNativeFirebaseMessagingRec
     try {
       Intent backgroundIntent =
           new Intent(context, IncomingCallService.class);
-      Log.e(TAG, remoteMessage+"");
+      Log.e(TAG, remoteMessage + "");
       backgroundIntent.putExtra("message", remoteMessage);
-      ComponentName name = context.startForegroundService(backgroundIntent);
+      ComponentName name = null;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        name = context.startForegroundService(backgroundIntent);
+      } else {
+        name = context.startService(backgroundIntent);
+      }
       if (name != null) {
         HeadlessJsTaskService.acquireWakeLockNow(context);
       }
