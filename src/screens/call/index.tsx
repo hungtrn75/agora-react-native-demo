@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
@@ -22,6 +23,8 @@ interface IProps {
 
 export const CallScreen: React.FC<IProps> = ({route}) => {
   const {appId, channelName, token, userId: uid} = route.params;
+
+  const {width, height} = useWindowDimensions();
 
   const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
   const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
@@ -112,7 +115,7 @@ export const CallScreen: React.FC<IProps> = ({route}) => {
   const leave = () => {
     try {
       agoraEngineRef.current?.leaveChannel();
-      console.log("leave", );
+      console.log('leave');
       setRemoteUid(0);
       setIsJoined(false);
       showMessage('You left the channel');
@@ -123,38 +126,24 @@ export const CallScreen: React.FC<IProps> = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.btnContainer}>
-        <Text onPress={join} style={styles.button}>
-          Join
-        </Text>
-        <Text onPress={leave} style={styles.button}>
-          Leave
-        </Text>
-      </View>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContainer}>
-        {isJoined ? (
-          <React.Fragment key={0}>
-            <RtcSurfaceView canvas={{uid: 0}} style={styles.videoView} />
-            <Text>Local user uid: {uid}</Text>
-          </React.Fragment>
-        ) : (
-          <Text>Join a channel</Text>
-        )}
-        {isJoined && remoteUid !== 0 ? (
-          <React.Fragment key={remoteUid}>
-            <RtcSurfaceView
-              canvas={{uid: remoteUid}}
-              style={styles.videoView}
-            />
-            <Text>Remote user uid: {remoteUid}</Text>
-          </React.Fragment>
-        ) : (
-          <Text>Waiting for a remote user to join</Text>
-        )}
-        <Text style={styles.info}>{message}</Text>
-      </ScrollView>
+      {isJoined && remoteUid !== 0 ? (
+        <RtcSurfaceView
+          canvas={{uid: remoteUid}}
+          style={StyleSheet.absoluteFillObject}
+        />
+      ) : null}
+      {isJoined ? (
+        <RtcSurfaceView
+          canvas={{uid: 0}}
+          style={{
+            width: width / 2.5,
+            height: height / 2.5,
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+          }}
+        />
+      ) : null}
     </View>
   );
 };
@@ -162,7 +151,7 @@ export const CallScreen: React.FC<IProps> = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   button: {
     paddingHorizontal: 25,

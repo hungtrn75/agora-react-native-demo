@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {TextInput, Touchable} from '../../components';
 import {AppParamList} from '../../navigation/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import notifee, { AndroidCategory, AndroidImportance } from '@notifee/react-native';
 
 interface IProps {
   navigation: NativeStackNavigationProp<AppParamList>;
@@ -41,6 +42,23 @@ export const UserInformationScreen: React.FC<IProps> = ({navigation}) => {
       .catch(error => console.log('error', error))
       .finally(() => setLoading(false));
   };
+
+  const showFullScreenIntent = ()=>{
+    notifee.displayNotification({
+        body: 'Full-screen notification',
+        android: {
+            channelId: 'default',
+          // Recommended to set a category
+          category: AndroidCategory.CALL,
+          // Recommended to set importance to high
+          importance: AndroidImportance.HIGH,
+          fullScreenAction: {
+            id: 'default',
+            launchActivity: 'com.agorademo.workspace.call.IncomingCallActivity',
+          },
+        },
+      });
+  }
   return (
     <View style={styles.container}>
       <TextInput
@@ -74,7 +92,7 @@ export const UserInformationScreen: React.FC<IProps> = ({navigation}) => {
       />
       <Touchable
         title="Join Channel"
-        onPress={onJoinChannel}
+        onPress={showFullScreenIntent}
         loading={loading}
       />
     </View>

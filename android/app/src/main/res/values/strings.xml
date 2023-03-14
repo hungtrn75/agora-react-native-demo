@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AgoraDemo</string>
+  <string name="app_name">AgoraDemo</string>
+  <string name="default_notification_channel_id" translatable="false">123</string>
 </resources>

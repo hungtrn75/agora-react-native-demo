@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "130535044921",
+    "firebase_url": "https://u-survey-a4512.firebaseio.com",
+    "project_id": "u-survey-a4512",
+    "storage_bucket": "u-survey-a4512.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130535044921:android:9ae6f91eda559f8102dae8",
+        "android_client_info": {
+          "package_name": "com.agorademo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130535044921-t7e9khv6r1m44spreta8jdb9oc84kuqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjkVOPUVqKjlfDR6eQCIqdxcdKL4FAxVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130535044921-t7e9khv6r1m44spreta8jdb9oc84kuqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
